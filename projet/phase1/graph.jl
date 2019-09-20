@@ -54,13 +54,14 @@ nb_edges(graph::AbstractGraph) = length(graph.edges)
 
 """Affiche un graphe"""
 function show(graph::Graph)
-  println("Graph ", name(graph), " has ", nb_nodes(graph), " nodes.")
+  messageToPrint = string("Graph ", name(graph), " has ", nb_nodes(graph), "nodes and", nb_edges(graph), " edges.")
+  println(messageToPrint)
   for node in nodes(graph)
-    show(node)
+    messageToPrint = string(messageToPrint, "\n", show(node))
   end
-  println(" and ", nb_edges(graph), "edges.")
   for edge in edges(graph)
-    show(edge)
+    messageToPrint = string(messageToPrint, "\n", show(edge))
   end
-
+  println(messageToPrint)
+  return messageToPrint
 end
