@@ -46,7 +46,8 @@ function read_nodes(header::Dict{String}{String}, filename::String)
   display_data_type = header["DISPLAY_DATA_TYPE"]
 
 
-  if !(node_coord_type in ["TWOD_COORDS", "THREED_COORDS"]) && !(display_data_type in ["COORDS_DISPLAY", "TWOD_DISPLAY"])
+  if !(node_coord_type in ["TWOD_COORDS", "THREED_COORDS"]) &&
+     !(display_data_type in ["COORDS_DISPLAY", "TWOD_DISPLAY"])
     return nodes
   end
 
