@@ -1,4 +1,4 @@
-using Plots
+"""using Plots"""
 
 """Analyse un fichier .tsp et renvoie un dictionnaire avec les données de l'entête."""
 function read_header(filename::String)
@@ -107,12 +107,14 @@ function read_edges(header::Dict{String}{String}, filename::String)
   file = open(filename, "r")
   dim = parse(Int, header["DIMENSION"])
   edge_weight_section = false
-  k = 0
-  n_edges = 0
-  i = 0
-  n_to_read = n_nodes_to_read(edge_weight_format, k, dim)
+  k = 0; """Numéro de la ligne qu'on lit pour récupérer le noeud associé."""
+  n_edges = 0; """nombre d'arêtes dans la ligne qu'on lit"""
+  i = 0; """ Numéro de la colonne qu'on lit pour récuperer le noeud associé."""
+  weight = 0; """Variable qui va lire le poids pour chaque arête"""
+  n_to_read = n_nodes_to_read(edge_weight_format, k, dim); """Nombre de noeuds qui existe dans le fichier"""
   flag = false
 
+"""On étudie chaque ligne du fichier"""
   for line in eachline(file)
     line = strip(line)
     if !flag
@@ -121,17 +123,26 @@ function read_edges(header::Dict{String}{String}, filename::String)
         continue
       end
 
+"""Si il existe des poids dans le fichier on récupère la ligne pour spliter chacun des poids des arêtes."""
       if edge_weight_section
         data = split(line)
         n_data = length(data)
         start = 0
+
+        """Tant qu'il reste des poids à récupérer, on lit les arêtes."""
         while n_data > 0
           n_on_this_line = min(n_to_read, n_data)
 
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
+            """on récupère la valeur du poids de l'arête qui est lue"""
+            weight = data[j]
+
+            """on récupère les noeuds de l'arête en fonction du type de fichier lu"""
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
               edge = (k+1, i+k+2)
+              println(edge)
+              println(weight)
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
               edge = (k+1, i+k+1)
             elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
@@ -212,6 +223,7 @@ Exemple :
     plot_graph(graph_nodes, graph_edges)
     savefig("bayg29.pdf")
 """
+
 function plot_graph(nodes, edges)
   fig = plot(legend=false)
 

@@ -1,4 +1,8 @@
 import Base.show
+include(joinpath(@__DIR__,"node.jl"))
+include(joinpath(@__DIR__,"edge.jl"))
+include(joinpath(@__DIR__,"graph.jl"))
+include(joinpath(@__DIR__,"read_stsp.jl"))
 
 function main()
     noeud1 = Node("James", [π, exp(1)])
@@ -7,9 +11,8 @@ function main()
 
     edge1 = Edge("1", noeud1, noeud2, 3);
     edge2 = Edge("2", noeud2, noeud3, 4);
+    read_stsp(joinpath(@__DIR__,"..","..","instances","stsp","bayg29.tsp"))
 
-    show(noeud1);
-    show(edge1);
 
 end
 
