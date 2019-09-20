@@ -5,8 +5,17 @@ function read_header(filename::String)
 
   file = open(filename, "r")
   header = Dict{String}{String}()
-  sections = ["NAME", "TYPE", "COMMENT", "DIMENSION", "EDGE_WEIGHT_TYPE", "EDGE_WEIGHT_FORMAT",
-  "EDGE_DATA_FORMAT", "NODE_COORD_TYPE", "DISPLAY_DATA_TYPE"]
+  sections = [
+    "NAME",
+    "TYPE",
+    "COMMENT",
+    "DIMENSION",
+    "EDGE_WEIGHT_TYPE",
+    "EDGE_WEIGHT_FORMAT",
+    "EDGE_DATA_FORMAT",
+    "NODE_COORD_TYPE",
+    "DISPLAY_DATA_TYPE",
+  ]
 
   # Initialize header
   for section in sections
