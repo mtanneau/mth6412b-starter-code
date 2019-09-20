@@ -107,11 +107,16 @@ function read_edges(header::Dict{String}{String}, filename::String)
   file = open(filename, "r")
   dim = parse(Int, header["DIMENSION"])
   edge_weight_section = false
-  k = 0; """Numéro de la ligne qu'on lit pour récupérer le noeud associé."""
-  n_edges = 0; """nombre d'arêtes dans la ligne qu'on lit"""
-  i = 0; """ Numéro de la colonne qu'on lit pour récuperer le noeud associé."""
-  weight = 0; """Variable qui va lire le poids pour chaque arête"""
-  n_to_read = n_nodes_to_read(edge_weight_format, k, dim); """Nombre de noeuds qui existe dans le fichier"""
+  k = 0
+  """Numéro de la ligne qu'on lit pour récupérer le noeud associé."""
+  n_edges = 0
+  """nombre d'arêtes dans la ligne qu'on lit"""
+  i = 0
+  """ Numéro de la colonne qu'on lit pour récuperer le noeud associé."""
+  weight = 0
+  """Variable qui va lire le poids pour chaque arête"""
+  n_to_read = n_nodes_to_read(edge_weight_format, k, dim)
+  """Nombre de noeuds qui existe dans le fichier"""
   flag = false
 
 """On étudie chaque ligne du fichier"""
@@ -135,22 +140,20 @@ function read_edges(header::Dict{String}{String}, filename::String)
 
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
-            """on récupère la valeur du poids de l'arête qui est lue"""
-            weight = data[j]
+            """on récupère la valeur du poids de l'arête qui est lue """
+            weight = data[j+1]
 
-            """on récupère les noeuds de l'arête en fonction du type de fichier lu"""
+            """on récupère les noeuds de l'arête en fonction du type de fichier lu et on ajoute le poids"""
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
-              edge = (k+1, i+k+2)
-              println(edge)
-              println(weight)
+              edge = (k + 1, i + k + 2, weight)
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-              edge = (k+1, i+k+1)
+              edge = (k + 1, i + k + 1, weight)
             elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
-              edge = (i+k+2, k+1)
+              edge = (i + k + 2, k + 1, weight)
             elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
-              edge = (i+1, k+1)
+              edge = (i + 1, k + 1, weight)
             elseif edge_weight_format == "FULL_MATRIX"
-              edge = (k+1, i+1)
+              edge = (k + 1, i + 1, weight)
             else
               warn("Unknown format - function read_edges")
             end
