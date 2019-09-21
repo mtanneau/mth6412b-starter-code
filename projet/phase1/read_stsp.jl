@@ -141,7 +141,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
             """on récupère la valeur du poids de l'arête qui est lue """
-            weight = data[j+1]
+            weight = parse(Int64,data[j+1])
 
             """on récupère les noeuds de l'arête en fonction du type de fichier lu et on ajoute le poids"""
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
