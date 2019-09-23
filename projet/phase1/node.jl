@@ -7,13 +7,13 @@ abstract type AbstractNode{T} end
 
 Exemple:
 
-        noeud = Node("James", [π, exp(1)])
-        noeud = Node("Kirk", "guitar")
-        noeud = Node("Lars", 2)
+        noeud = Node(1, [π, exp(1)])
+        noeud = Node(2, "guitar")
+        noeud = Node(3, 2)
 
 """
 mutable struct Node{T} <: AbstractNode{T}
-  name::String
+  name::Int
   data::T
 end
 

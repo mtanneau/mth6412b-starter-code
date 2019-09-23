@@ -4,9 +4,9 @@ import Base.show
 abstract type AbstractEdge{T} end
 
 mutable struct Edge{T} <: AbstractEdge{T}
-  node1::AbstractNode
-  node2::AbstractNode
-  weight::T
+  node1::AbstractNode{T}
+  node2::AbstractNode{T}
+  weight::Int
 end
 
 # on présume que tous les noeuds dérivant d'AbstractEdge
