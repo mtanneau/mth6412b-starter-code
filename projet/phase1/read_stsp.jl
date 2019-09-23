@@ -199,15 +199,16 @@ function read_stsp(filename::String)
   edges_brut = read_edges(header, filename)
   graph_edges = []
   for k = 1 : dim
-    edge_list = Int[]
+    edge_list = Tuple{Int, Int}[]
     push!(graph_edges, edge_list)
   end
 
+  """Le premier noeud de l'arête est représenté par la ligne du tableau edges. Chaque tuple représente le deuxième noeud de l'arête et son poids associé """
   for edge in edges_brut
     if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-      push!(graph_edges[edge[1]], edge[2])
+      push!(graph_edges[edge[1]], (edge[2], edge[3]))
     else
-      push!(graph_edges[edge[2]], edge[1])
+      push!(graph_edges[edge[2]], (edge[1], edge[3]))
     end
   end
 
