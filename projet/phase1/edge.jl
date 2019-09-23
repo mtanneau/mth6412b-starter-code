@@ -15,7 +15,7 @@ Exemple:
 mutable struct Edge{T} <: AbstractEdge{T}
   name::String
   data::Vector{Node{T}}
-  weigth::Int
+  weight::Int
 end
 
 
@@ -30,9 +30,9 @@ data(edge::AbstractEdge) = edge.data
 
 
 """Renvoie le poids de l'arête."""
-weigth(edge::AbstractEdge) = edge.weigth
+weight(edge::AbstractEdge) = edge.weight
 
 """Affiche une arête."""
 function show(edge::AbstractEdge)
-  println("Edge", name(edge), ", data: ", data(edge)[1].name, " et ",data(edge)[2].name , ", weigth", weigth(edge))
+  println("Edge", name(edge), ", data: ", data(edge)[1].name, " et ",data(edge)[2].name , ", weight", weight(edge))
 end
