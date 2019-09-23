@@ -141,7 +141,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
             """on récupère la valeur du poids de l'arête qui est lue """
-            weight = data[j+1]
+            weight = parse(Int64,data[j+1])
 
             """on récupère les noeuds de l'arête en fonction du type de fichier lu et on ajoute le poids"""
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
@@ -199,15 +199,16 @@ function read_stsp(filename::String)
   edges_brut = read_edges(header, filename)
   graph_edges = []
   for k = 1 : dim
-    edge_list = Int[]
+    edge_list = Tuple{Int, Int}[]
     push!(graph_edges, edge_list)
   end
 
+  """Le premier noeud de l'arête est représenté par la ligne du tableau edges. Chaque tuple représente le deuxième noeud de l'arête et son poids associé """
   for edge in edges_brut
     if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-      push!(graph_edges[edge[1]], edge[2])
+      push!(graph_edges[edge[1]], (edge[2], edge[3]))
     else
-      push!(graph_edges[edge[2]], edge[1])
+      push!(graph_edges[edge[2]], (edge[1], edge[3]))
     end
   end
 
