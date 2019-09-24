@@ -11,12 +11,20 @@ using Plots
 
 """
 
-function main(filename::String, pdf="y")
-  graph_nodes, graph_edges, graph_edges_weights = read_stsp(filename)
-  println("\nGraph weights :")
-  Base.show(graph_edges_weights)
-  if(pdf == "y")
-    savefig(split(filename, ".")[1] * ".pdf")
+function main(filename::String)
+  raw_nodes, raw_edges, raw_edges_weights = read_stsp(filename)
+  nodes = Vector{Node}()
+  edges = Vector{Edge}()
+  graph = Graph{Int64}("graph", nodes, edges)
+  for raw_node in raw_nodes
+    node = Node{Int64}(string(raw_node), 0)
+    add_node!(graph, node)
   end
-  plot_graph(graph_nodes, graph_edges)
+  for n = 1 : length(raw_edges)
+    for e = 1 : length(raw_edges[n])
+      edge = Edge{Int64}(string(n, "-", raw_edges[n][e]), n, raw_edges[n][e], raw_edges_weights[n][e])
+      add_edge!(graph, edge)
+    end
+  end
+  show(graph)
 end

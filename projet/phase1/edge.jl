@@ -14,19 +14,27 @@ Exemple:
 """
 mutable struct Edge{T} <: AbstractEdge{T}
   name::String
-  data::T
+  s_node::T
+  d_node::T
+  weight::T
 end
 
-# on présume que tous les arcs dérivant d'AbstracEdge
-# posséderont des champs `name` et `data`.
+# on présume que tous les arcs dérivant d'AbstractEdge
+# posséderont des champs `name`, `node1`, `node2` et `weight`.
 
 """Renvoie le nom de l'arc."""
 name(edge::AbstractEdge) = edge.name
 
-"""Renvoie les données contenues dans l'arc."""
-data(edge::AbstractEdge) = edge.data
+"""Renvoie le noeud de départ de l'arc."""
+s_node(edge::AbstractEdge) = edge.s_node
+
+"""Renvoie le noeud d'arrivée de l'arc."""
+d_node(edge::AbstractEdge) = edge.d_node
+
+"""Renvoie le poids de l'arc."""
+weight(edge::AbstractEdge) = edge.weight
 
 """Affiche un arc."""
 function show(edge::AbstractEdge)
-  println("Edge ", name(edge), ", data: ", data(edge))
+  println("Edge ", name(edge), " between ", s_node(edge), " and ", d_node(edge), ", weight: ", weight(edge))
 end
