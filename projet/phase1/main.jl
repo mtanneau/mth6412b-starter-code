@@ -40,15 +40,15 @@ function construct_graph(filename::String, graph_name::String)
 
     """Pour toutes les arêtes, on ajoute l'arête avec son poids au tableau d'arêtes"""
     edges = Edge{typeof(nodes[1].data)}[] #tableau d'arêtes à implémenter
-    node1 = 1 #numéro de ligne étudiée (ce qui correspond au premier noeud de l'arête)
+    name_node1 = 1 #numéro de ligne étudiée (ce qui correspond au premier noeud de l'arête)
 
-    #on vient récupérer chaque ligne du tableau (=premier noeud d'une arête) pour lire à quel noeud il est relié et avec quel poids
-    for first_node in brut_edges
-        for second_node in first_node
-            edge = Edge(nodes[node1], nodes[second_node[1]], second_node[2])
+    #on vient récupérer chaque ligne k du tableau (le numéro de la ligne correspondant au nom du noeud) pour lire à quel noeud il est relié et avec quel poids
+    for k in brut_edges
+        for tuple in k
+            edge = Edge(nodes[name_node1], nodes[tuple[1]], tuple[2])
             push!(edges, edge)
         end
-        node1 = node1 + 1
+        name_node1 = name_node1 + 1
     end
 
     """Création du graphe avec les données récupérées"""
