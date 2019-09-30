@@ -13,12 +13,12 @@ end
 
 """fonction qui va créer un graphe à partir d'un fichier"""
 function construct_graph(filename::String, graph_name::String)
-    """Récupérer les données du fichier """
+    #Récupérer les données du fichier
     brut_nodes, brut_edges = read_stsp(joinpath(@__DIR__,"..","..","instances","stsp",filename))
     brut_nodes = sort(brut_nodes) #on trie le tableau des noeuds
 
 
-    """Pour tous les noeuds du graphe, on crée un objet de type noeud et on l'ajoute au graphe"""
+    #Pour tous les noeuds du graphe, on crée un objet de type noeud et on l'ajoute au graphe
     nodes = []
     nb_nodes = length(brut_edges)
     #On implémente un tableau de noeuds avec les data vides si il n'y a pas de données à récupérer dans le fichier
@@ -38,7 +38,7 @@ function construct_graph(filename::String, graph_name::String)
         end
     end
 
-    """Pour toutes les arêtes, on ajoute l'arête avec son poids au tableau d'arêtes"""
+    #Pour toutes les arêtes, on ajoute l'arête avec son poids au tableau d'arêtes
     edges = Edge{typeof(nodes[1].data)}[] #tableau d'arêtes à implémenter
     name_node1 = 1 #numéro de ligne étudiée (ce qui correspond au premier noeud de l'arête)
 
@@ -51,7 +51,7 @@ function construct_graph(filename::String, graph_name::String)
         name_node1 = name_node1 + 1
     end
 
-    """Création du graphe avec les données récupérées"""
+    #Création du graphe avec les données récupérées
     graph = Graph(graph_name, nodes, edges)
 
 end

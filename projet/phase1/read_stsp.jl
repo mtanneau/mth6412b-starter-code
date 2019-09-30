@@ -108,18 +108,18 @@ function read_edges(header::Dict{String}{String}, filename::String)
   dim = parse(Int, header["DIMENSION"])
   edge_weight_section = false
   k = 0
-  """Numéro de la ligne qu'on lit pour récupérer le noeud associé."""
+  #Numéro de la ligne qu'on lit pour récupérer le noeud associé.
   n_edges = 0
-  """nombre d'arêtes dans la ligne qu'on lit"""
+  #nombre d'arêtes dans la ligne qu'on lit.
   i = 0
-  """ Numéro de la colonne qu'on lit pour récuperer le noeud associé."""
+  # Numéro de la colonne qu'on lit pour récuperer le noeud associé.
   weight = 0
-  """Variable qui va lire le poids pour chaque arête"""
+  #Variable qui va lire le poids pour chaque arête.
   n_to_read = n_nodes_to_read(edge_weight_format, k, dim)
-  """Nombre de noeuds qui existe dans le fichier"""
+  #Nombre de noeuds qui existe dans le fichier
   flag = false
 
-"""On étudie chaque ligne du fichier"""
+  #On étudie chaque ligne du fichier
   for line in eachline(file)
     line = strip(line)
     if !flag
@@ -128,22 +128,22 @@ function read_edges(header::Dict{String}{String}, filename::String)
         continue
       end
 
-"""Si il existe des poids dans le fichier on récupère la ligne pour spliter chacun des poids des arêtes."""
+      #Si il existe des poids dans le fichier on récupère la ligne pour spliter chacun des poids des arêtes.
       if edge_weight_section
         data = split(line)
         n_data = length(data)
         start = 0
 
-        """Tant qu'il reste des poids à récupérer, on lit les arêtes."""
+        #Tant qu'il reste des poids à récupérer, on lit les arêtes.
         while n_data > 0
           n_on_this_line = min(n_to_read, n_data)
 
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
-            """on récupère la valeur du poids de l'arête qui est lue """
+            #on récupère la valeur du poids de l'arête qui est lue
             weight = parse(Int64,data[j+1])
 
-            """on récupère les noeuds de l'arête en fonction du type de fichier lu et on ajoute le poids"""
+            #on récupère les noeuds de l'arête en fonction du type de fichier lu et on ajoute le poids
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
               edge = (k + 1, i + k + 2, weight)
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
@@ -203,7 +203,7 @@ function read_stsp(filename::String)
     push!(graph_edges, edge_list)
   end
 
-  """Le premier noeud de l'arête est représenté par la ligne du tableau edges. Chaque tuple représente le deuxième noeud de l'arête et son poids associé """
+  #Le premier noeud de l'arête est représenté par la ligne du tableau edges. Chaque tuple représente le deuxième noeud de l'arête et son poids associé 
   for edge in edges_brut
     if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
       push!(graph_edges[edge[1]], (edge[2], edge[3]))
