@@ -46,7 +46,7 @@ end
 """Ajoute un vecteur d'arête au graphe"""
 function add_edges!(graph::Graph{T}, edges::Vector{Edge{T}}) where T
   for k= 1: length(edges)
-    edge = edges(k)
+    edge = edges[k]
     push!(graph.edges, edge)
   end
   graph
@@ -73,11 +73,5 @@ nb_edges(graph::AbstractGraph) = length(graph.edges)
 """Affiche un graphe"""
 function show(graph::Graph)
   println("Graph ", name(graph), " has ", nb_nodes(graph), " nodes.")
-  for node in nodes(graph)
-    show(node)
-  end
   println(" and ", nb_edges(graph), "edges.")
-  for edge in edges(graph)
-    show(edge)
-  end
 end
