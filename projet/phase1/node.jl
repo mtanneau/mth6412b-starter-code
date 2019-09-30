@@ -1,5 +1,5 @@
 import Base.show
-
+# une ligne de commentaire
 """Type abstrait dont d'autres types de noeuds dériveront."""
 abstract type AbstractNode{T} end
 
@@ -30,3 +30,5 @@ data(node::AbstractNode) = node.data
 function show(node::AbstractNode)
   println("Node ", name(node), ", data: ", data(node))
 end
+
+# new line for test commit
