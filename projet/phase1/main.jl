@@ -3,7 +3,7 @@ include("edge.jl")
 include("graph.jl")
 include("read_stsp.jl")
 
-filename = "instances\\stsp\\bay29.tsp"
+filename = "instances\\stsp\\bayg29.tsp"
 header = read_header(filename)
 nom = header["NAME"]
 graph_edges = read_edges(header,filename)
