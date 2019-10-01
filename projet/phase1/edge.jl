@@ -30,5 +30,5 @@ weight(edge::AbstractEdge) = edge.weight
 
 """Affiche une arête."""
 function show(edge::AbstractEdge)
-  println("data: ", data(edge)[1].name, " et ",data(edge)[2].name , ", weight", weight(edge))
+  println("data : ", data(edge)[1].name, " et ",data(edge)[2].name , ", weight : ", weight(edge))
 end
