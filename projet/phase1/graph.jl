@@ -3,7 +3,7 @@ import Base.show
 """Type abstrait dont d'autres types de graphes dériveront."""
 abstract type AbstractGraph{T} end
 
-"""Type representant un graphe comme un ensemble de noeuds.
+"""Type representant un graphe comme un ensemble de noeuds et d'arêtes.
 
 Exemple :
 
