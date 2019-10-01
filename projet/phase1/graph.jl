@@ -10,9 +10,9 @@ Exemple :
     node1 = Node("Joe", 3.14)
     node2 = Node("Steve", exp(1))
     node3 = Node("Jill", 4.12)
-    arete1 = Edge("James", [node1, node2], 12)
-    arete2 = Edge("Kirk", [node1, node3], 24)
-    arete3 = Edge("Lars", [node2, node3], 3)
+    arete1 = Edge((node1, node2), 12)
+    arete2 = Edge((node1, node3), 24)
+    arete3 = Edge((node2, node3), 3)
 
     G = Graph("Ick", [node1, node2, node3], [arete1, arete2, arete3])
 show(G)
