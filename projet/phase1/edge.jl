@@ -1,6 +1,6 @@
 import Base.show
 # ajout d'une ligne
-"""Type abstrait dont d'autres types d'arete' dériveront."""
+"""Type abstrait dont d'autres types d'arêtes dériveront."""
 abstract type AbstractEdge{T} end
 
 """Type représentant les noeuds d'un graphe.
