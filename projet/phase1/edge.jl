@@ -13,17 +13,13 @@ Exemple:
 
 """
 mutable struct Edge{T} <: AbstractEdge{T}
-  name::String
   data::Vector{Node{T}}
   weight::Int
 end
 
 
- #on présume que tous les noeuds dérivant d'AbstractNode
- # posséderont des champs `name` et `data`.
-
-"""Renvoie le nom de l'arête."""
-name(edge::AbstractEdge) = edge.name
+ #on présume que tous les arêtes dérivant d'AbstractEdge
+ # posséderont des champs `data` et `weight`.
 
 """Renvoie les sommets reliés par l'arête."""
 data(edge::AbstractEdge) = edge.data
@@ -34,5 +30,5 @@ weight(edge::AbstractEdge) = edge.weight
 
 """Affiche une arête."""
 function show(edge::AbstractEdge)
-  println("Edge", name(edge), ", data: ", data(edge)[1].name, " et ",data(edge)[2].name , ", weight", weight(edge))
+  println("data: ", data(edge)[1].name, " et ",data(edge)[2].name , ", weight", weight(edge))
 end
