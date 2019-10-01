@@ -7,11 +7,19 @@ filename = "instances\\stsp\\bayg29.tsp"
 header = read_header(filename)
 nom = header["NAME"]
 graph_edges = read_edges(header,filename)
-graph_nodes = read_nodes(header,filename)
 G = Graph(nom, Node{Vector{Float64}}[], Edge{Vector{Float64}}[])
+
 # On ajoute les noueds un par un au graphe G
-for (i,nodes) in graph_nodes
+if header["DISPLAY_DATA_TYPE"]=="None"
+    graph_nodes = Dict(i => [NaN,NaN] for i = 1 : parse(Int,header["DIMENSION"]))
+    for (i,nodes) in graph_nodes
     add_node!(G, Node(string(i), nodes))
+    end
+else
+    graph_nodes = read_nodes(header,filename)
+    for (i,nodes) in graph_nodes
+        add_node!(G, Node(string(i), nodes))
+    end
 end
 # On ajoute les arêtes au graphe G
 for e in graph_edges
