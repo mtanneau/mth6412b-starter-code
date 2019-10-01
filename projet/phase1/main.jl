@@ -15,6 +15,6 @@ for (i,nodes) in graph_nodes
 end
 # On ajoute les arêtes au graphe G
 for e in graph_edges
-    add_edge!(G, Edge([Node(string(e[1]), graph_nodes[e[1]]), Node(string(e[2]), graph_nodes[e[2]])], e[3]))
+    add_edge!(G, Edge((Node(string(e[1]), graph_nodes[e[1]]), Node(string(e[2]), graph_nodes[e[2]])), e[3]))
 end
 show(G)
