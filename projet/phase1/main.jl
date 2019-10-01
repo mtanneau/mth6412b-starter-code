@@ -1,4 +1,7 @@
-
+include("node.jl")
+include("edge.jl")
+include("graph.jl")
+include("read_stsp.jl")
 using Plots
 
 """ Analyse une instance de TSP symétrique dont les poids sont donnés au format
@@ -22,4 +25,5 @@ function main(filename::String)
     end
   end
   show(graph)
+  return graph
 end
