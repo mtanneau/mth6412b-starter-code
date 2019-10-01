@@ -3,17 +3,17 @@ import Base.show
 """Type abstrait dont d'autres types d'arêtes dériveront."""
 abstract type AbstractEdge{T} end
 
-"""Type représentant les noeuds d'un graphe.
+"""Type représentant les arêtes d'un graphe.
 
 Exemple:
 
-        arete1 = Edge("James", [node1, node2], 12)
-        arete2 = Edge("Kirk", [node1, node3], 24)
-        arete3 = Edge("Lars", [node2, node3], 3)
+        arete1 = Edge((node1, node2), 12)
+        arete2 = Edge((node1, node3), 24)
+        arete3 = Edge((node1, node3), 3)
 
 """
 mutable struct Edge{T} <: AbstractEdge{T}
-  data::Vector{Node{T}}
+  data::Tuple{Node{T},Node{T}}
   weight::Int
 end
 
