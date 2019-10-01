@@ -10,7 +10,7 @@ function algoKruskal(graph::AbstractGraph)
   foret = initArbre(graph)
 
   #on crée un tableau avec toutes les arêtes du graphe triées par poids
-  aretes = edges(graph)
+  aretes = getEdges(foret)
   sort!(aretes, by = x -> x.weight)
 
   #pour chaque arête, on regarde si elle coupe un ensemble connexe cad si ses deux noeuds ont une racine différente

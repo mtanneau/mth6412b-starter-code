@@ -34,6 +34,7 @@ add_node!(graphe,  node3)
 add_edge!(graphe, edge2)
 @test edges(graphe) == [edge1, edge2]
 
+
 #test recouvrement.jl
 foret = initArbre(graphe)
 @test getName(foret) == name(graphe)
@@ -51,3 +52,4 @@ arbre = algoKruskal(graphe)
 @test getRacine(arbre, node3) == node3
 @test getRacine(arbre, node2) == node3
 @test getRacine(arbre, node1) == node3
+@test getEdges(arbre) == [edge3, edge2, edge1]

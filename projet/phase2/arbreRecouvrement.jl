@@ -23,6 +23,9 @@ getParents(graphe::Arbre) = graphe.link
 """Fonction retournant le nom de l'objet arbre"""
 getName(parent::AbstractArbre) = parent.name
 
+"""Fonction récupérant les arêtes"""
+getEdges(arbre::AbstractArbre) = arbre.edges
+
 """Fonction retournant le parent du noeud donné s'il existe"""
 function getParent(parent::AbstractArbre{T}, noeud::AbstractNode{T}) where T
   return get(getParents(parent), noeud, 0)
