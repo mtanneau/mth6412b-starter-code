@@ -15,8 +15,6 @@ end
 function construct_graph(filename::String, graph_name::String)
     #Récupérer les données du fichier
     brut_nodes, brut_edges = read_stsp(joinpath(@__DIR__,"..","..","instances","stsp",filename))
-    brut_nodes = sort(brut_nodes) #on trie le tableau des noeuds
-
 
     #Pour tous les noeuds du graphe, on crée un objet de type noeud et on l'ajoute au graphe
     nodes = []
@@ -32,8 +30,8 @@ function construct_graph(filename::String, graph_name::String)
     else
         T = valtype(brut_nodes)
         nodes = Node{T}[]
-        for node_id in keys(brut_nodes)
-          node = Node(node_id, brut_nodes[node_id])
+        for i in 1:nb_nodes
+          node = Node(i, brut_nodes[i])
           push!(nodes, node)
         end
     end
