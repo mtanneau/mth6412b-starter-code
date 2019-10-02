@@ -28,27 +28,9 @@ function add_node!(graph::Graph{T}, node::Node{T}) where T
   graph
 end
 
-"""Ajoute un vecteur de noeuds au graphe."""
-function add_nodes!(graph::Graph{T}, nodes::Vector{Node{T}}) where T
-  for k=1 : length(nodes)
-    node = nodes(k)
-    push!(graph.nodes, node)
-  end
-  graph
-end
-
 """Ajoute une arête au graphe."""
 function add_edge!(graph::Graph{T}, edge::Edge{T}) where T
   push!(graph.edges, edge)
-  graph
-end
-
-"""Ajoute un vecteur d'arête au graphe"""
-function add_edges!(graph::Graph{T}, edges::Vector{Edge{T}}) where T
-  for k= 1: length(edges)
-    edge = edges[k]
-    push!(graph.edges, edge)
-  end
   graph
 end
 

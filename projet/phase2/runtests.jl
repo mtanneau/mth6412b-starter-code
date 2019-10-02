@@ -24,6 +24,7 @@ edge2 = Edge(node2, node3, 2)
 
 # test graph.jl
 graphe = Graph("test", [node1, node2],[edge1] )
+@test name(graphe) == "test"
 @test nb_nodes(graphe) == 2
 @test nb_edges(graphe) == 1
 @test typeNode(graphe) == Int64
@@ -38,6 +39,8 @@ add_edge!(graphe, edge2)
 # test recouvrement.jl
 foret = initArbre(graphe)
 @test getName(foret) == name(graphe)
+@test getParents(foret) == Dict(node3 => node3, node1 => node1, node2 => node2)
+@test getEdges(foret) == Edge{Int64}[]
 @test getParent(foret, node1) == node1
 @test getRacine(foret, node1) == node1
 changeParent!(foret, node1, node2)
@@ -48,6 +51,7 @@ changeParent!(foret, node2, node3)
 # test algoKruskal
 edge3 = Edge(node1, node3, 1)
 add_edge!(graphe, edge3)
+# test du bon fonctionnement de l'algo
 arbre = algoKruskal(graphe)
 @test getRacine(arbre, node3) == node3
 @test getRacine(arbre, node2) == node3
