@@ -31,11 +31,17 @@ function getParent(parent::AbstractArbre{T}, noeud::AbstractNode{T}) where T
   return get(getParents(parent), noeud, 0)
 end
 
+"""Ajoute une arête au graphe."""
+function add_edge!(arbre::AbstractArbre{T}, edge::Edge{T}) where T
+  push!(arbre.edges, edge)
+  arbre
+end
+
 
 """Fonction initialisant un objet de type Arbre pour un graphe"""
 function initArbre(graphe::AbstractGraph{T}) where T
   init = Dict{Node{typeNode(graphe)}, Node{typeNode(graphe)}}()
-  edges = graphe.edges
+  edges = Edge{typeNode(graphe)}[]
   foret = Arbre(name(graphe), init, edges)
   for noeud in nodes(graphe)
     foret.link[noeud] = noeud

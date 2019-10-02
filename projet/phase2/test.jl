@@ -8,21 +8,21 @@ include(joinpath(@__DIR__, "arbreRecouvrement.jl"))
 include(joinpath(@__DIR__, "kruskal.jl"))
 include(joinpath(@__DIR__, "graphConstruction.jl"))
 
-#test node.jl
+# test node.jl
 node1 = Node(1,2)
 @test name(node1) == 1
 @test data(node1) == 2
 node2 = Node(2,1)
 node3 = Node(3,1)
 
-#test edge.jl
+# test edge.jl
 edge1 = Edge(node1, node2, 4)
 @test getNode1(edge1) == node1
 @test getNode2(edge1) == node2
 @test weight(edge1) == 4
 edge2 = Edge(node2, node3, 2)
 
-#test graph.jl
+# test graph.jl
 graphe = Graph("test", [node1, node2],[edge1] )
 @test nb_nodes(graphe) == 2
 @test nb_edges(graphe) == 1
@@ -35,7 +35,7 @@ add_edge!(graphe, edge2)
 @test edges(graphe) == [edge1, edge2]
 
 
-#test recouvrement.jl
+# test recouvrement.jl
 foret = initArbre(graphe)
 @test getName(foret) == name(graphe)
 @test getParent(foret, node1) == node1
@@ -45,11 +45,11 @@ changeParent!(foret, node1, node2)
 changeParent!(foret, node2, node3)
 @test getRacine(foret, node1) == node3
 
-#test algoKruskal
+# test algoKruskal
 edge3 = Edge(node1, node3, 1)
 add_edge!(graphe, edge3)
 arbre = algoKruskal(graphe)
 @test getRacine(arbre, node3) == node3
 @test getRacine(arbre, node2) == node3
 @test getRacine(arbre, node1) == node3
-@test getEdges(arbre) == [edge3, edge2, edge1]
+@test getEdges(arbre) == [edge3, edge2]
