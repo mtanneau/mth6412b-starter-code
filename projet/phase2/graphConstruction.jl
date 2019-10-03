@@ -4,12 +4,6 @@ include(joinpath(@__DIR__,"edge.jl"))
 include(joinpath(@__DIR__,"graph.jl"))
 include(joinpath(@__DIR__,"read_stsp.jl"))
 
-function main()
-    file_name = "bayg29.tsp"
-    graphe = construct_graph(file_name, "test")
-    return graphe
-end
-
 
 """fonction qui va créer un graphe à partir d'un fichier"""
 function construct_graph(filename::String, graph_name::String)
@@ -54,4 +48,3 @@ function construct_graph(filename::String, graph_name::String)
 
 end
 
-main()
