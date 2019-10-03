@@ -5,8 +5,17 @@ function read_header(filename::String)
 
   file = open(filename, "r")
   header = Dict{String}{String}()
-  sections = ["NAME", "TYPE", "COMMENT", "DIMENSION", "EDGE_WEIGHT_TYPE", "EDGE_WEIGHT_FORMAT",
-  "EDGE_DATA_FORMAT", "NODE_COORD_TYPE", "DISPLAY_DATA_TYPE"]
+  sections = [
+    "NAME",
+    "TYPE",
+    "COMMENT",
+    "DIMENSION",
+    "EDGE_WEIGHT_TYPE",
+    "EDGE_WEIGHT_FORMAT",
+    "EDGE_DATA_FORMAT",
+    "NODE_COORD_TYPE",
+    "DISPLAY_DATA_TYPE",
+  ]
 
   # Initialize header
   for section in sections
@@ -37,7 +46,8 @@ function read_nodes(header::Dict{String}{String}, filename::String)
   display_data_type = header["DISPLAY_DATA_TYPE"]
 
 
-  if !(node_coord_type in ["TWOD_COORDS", "THREED_COORDS"]) && !(display_data_type in ["COORDS_DISPLAY", "TWOD_DISPLAY"])
+  if !(node_coord_type in ["TWOD_COORDS", "THREED_COORDS"]) &&
+     !(display_data_type in ["COORDS_DISPLAY", "TWOD_DISPLAY"])
     return nodes
   end
 
@@ -131,15 +141,15 @@ function read_edges(header::Dict{String}{String}, filename::String)
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
-              edge = (k+1, i+k+2)
+              edge = (k+1, i+k+2, parse(Int,data[j+1]))
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-              edge = (k+1, i+k+1)
+              edge = (k+1, i+k+1, parse(Int,data[j+1]))
             elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
-              edge = (i+k+2, k+1)
+              edge = (i+k+2, k+1, parse(Int,data[j+1]))
             elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
-              edge = (i+1, k+1)
+              edge = (i+1, k+1, parse(Int,data[j+1]))
             elseif edge_weight_format == "FULL_MATRIX"
-              edge = (k+1, i+1)
+              edge = (k+1, i+1, parse(Int,data[j+1]))
             else
               warn("Unknown format - function read_edges")
             end
