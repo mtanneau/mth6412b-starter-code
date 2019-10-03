@@ -1,12 +1,5 @@
 import Base.show
 
-include(joinpath(@__DIR__,"node.jl"))
-include(joinpath(@__DIR__,"edge.jl"))
-include(joinpath(@__DIR__,"graph.jl"))
-include(joinpath(@__DIR__,"read_stsp.jl"))
-include(joinpath(@__DIR__, "arbreRecouvrement.jl"))
-include(joinpath(@__DIR__, "kruskal.jl"))
-include(joinpath(@__DIR__, "graphConstruction.jl"))
 include(joinpath(@__DIR__, "main.jl"))
 
 function test()
@@ -65,5 +58,3 @@ function test()
     arbre3 = main(graphe3)
     # show(arbre3.edges)
 end
-
-test()
