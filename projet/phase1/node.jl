@@ -18,7 +18,7 @@ mutable struct Node{T} <: AbstractNode{T}
 end
 
 
- on présume que tous les noeuds dérivant d'AbstractNode
+#on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name` et `data`.
 
 """Renvoie le nom du noeud."""
