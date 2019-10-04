@@ -1,5 +1,8 @@
 import Base.show
 
+include("node.jl")
+include("edge.jl")
+
 """Type abstrait dont d'autres types de graphes dériveront."""
 abstract type AbstractGraph{T} end
 
@@ -59,4 +62,19 @@ function show(graph::Graph)
   for edge in edges(graph)
     show(edge)
   end
+end
+
+"""Renvoie les noeuds situés aux extrémités d'une arête d'un graphe donné."""
+function get_sd_nodes(nodes::Vector{Node{T}} where T, edge::AbstractEdge)
+  node1 = nodes[1]
+  node2 = nodes[1]
+  for node in nodes
+      if string(split(name(node))[1]) == string(s_node(edge))
+          node1 = node
+      end
+      if string(split(name(node))[1]) == string(d_node(edge))
+          node2 = node
+      end
+  end
+  return node1, node2
 end

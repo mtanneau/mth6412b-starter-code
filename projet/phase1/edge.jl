@@ -1,5 +1,7 @@
 import Base.show
 
+include("node.jl")
+
 """Type abstrait dont d'autres types d'arcs dériveront."""
 abstract type AbstractEdge{T} end
 

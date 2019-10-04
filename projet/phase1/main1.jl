@@ -9,7 +9,7 @@ using Plots
 
 """
 
-function main(filename::String)
+function main1(filename::String)
   raw_nodes, raw_edges, raw_edges_weights = read_stsp(filename)
   nodes = Vector{Node}()
   edges = Vector{Edge}()

@@ -1,5 +1,9 @@
 using Plots
 
+include("node.jl")
+include("edge.jl")
+include("graph.jl")
+
 """Analyse un fichier .tsp et renvoie un dictionnaire avec les données de l'entête."""
 function read_header(filename::String)
 
@@ -220,7 +224,7 @@ function read_stsp(filename::String)
   for k = 1 : dim
     edges_order = sortperm(graph_edges[k])
     graph_edges_weights[k] = graph_edges_weights[k][edges_order]
-    graph_edges[k] = sort(graph_edges[k])
+    graph_edges[k] = sort!(graph_edges[k])
   end
   println("✓")
   return graph_nodes, graph_edges, graph_edges_weights
