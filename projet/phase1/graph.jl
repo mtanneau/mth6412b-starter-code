@@ -24,13 +24,13 @@ mutable struct Graph{T} <: AbstractGraph{T}
 end
 
 """Ajoute un noeud au graphe."""
-function add_node!(graph::Graph{T}, node::Node{T}) where T
+function add_node!(graph::Graph{T}, node::AbstractNode{T}) where T
   push!(graph.nodes, node)
   graph
 end
 
 """Ajoute un arc au graphe."""
-function add_edge!(graph::Graph{T}, edge::Edge{T}) where T
+function add_edge!(graph::Graph{T}, edge::AbstractEdge{T}) where T
   push!(graph.edges, edge)
   graph
 end
@@ -62,19 +62,4 @@ function show(graph::Graph)
   for edge in edges(graph)
     show(edge)
   end
-end
-
-"""Renvoie les noeuds situés aux extrémités d'une arête d'un graphe donné."""
-function get_sd_nodes(nodes::Vector{Node{T}} where T, edge::AbstractEdge)
-  node1 = nodes[1]
-  node2 = nodes[1]
-  for node in nodes
-      if string(split(name(node))[1]) == string(s_node(edge))
-          node1 = node
-      end
-      if string(split(name(node))[1]) == string(d_node(edge))
-          node2 = node
-      end
-  end
-  return node1, node2
 end

@@ -1,40 +1,44 @@
 import Base.show
 
-here = "C://Users//arthg//github//mth6412b-starter-code//projet//"
-include(joinpath(here, "phase1//graph.jl"))
+include(joinpath(@__DIR__, "..", "phase1", "graph.jl"))
 
 """Un type abstrait dont dériveront d'autres types de ParentTable."""
 abstract type AbstractParentTable{T} end
 
 """Structure de données associant à chaque noeud d'un graphe son noeud parent."""
 mutable struct ParentTable{T} <: AbstractParentTable{T}
-    nodes::Vector{Node{T}}
+    enfants::Vector{Node{T}}
     parents::Vector{Node{T}}
 end
 
 ParentTable{T}() where T = ParentTable{T[]}
 
 """Renvoie la liste des noeuds."""
-nodes(parent_table::AbstractParentTable) = parent_table.nodes
+enfants(parent_table::AbstractParentTable) = parent_table.enfants
 
 """Renvoie la liste des parents de chaque noeud."""
 parents(parent_table::AbstractParentTable) = parent_table.parents
 
 """Renvoie le parent d'un noeud donné selon la table parent_table."""
 function parent(parent_table::AbstractParentTable, node::AbstractNode)
-    nodes = deepcopy(parent_table.nodes)
-    # nodes = nodes(parent_table) # la méthode nodes({ParentTable}) renvoie une erreur "ERROR: UndefVarError: nodes not defined"
-    for i in range(1, stop = length(nodes))
-        if nodes[i] == node
-            return parents(parent_table)[i]
+    parent = node
+    for (i, enfant) in enumerate(enfants(parent_table))
+        if name(enfant) == name(node)
+            parent = parents(parent_table)[i]
+            return parent
         end
     end
+    parent
 end
 
 """Attribue un noeud parent au noeud d'indice node_index."""
 function set_parent!(parent_table::AbstractParentTable, node::AbstractNode, parent::AbstractNode)
-    index = findfirst(x -> x==name(node), name.(nodes(parent_table)))
-    parents(parent_table)[index] = parent
+    for (i, enfant) in enumerate(enfants(parent_table))
+        if name(enfant) == name(node)
+            parents(parent_table)[i] = parent
+            return parent_table
+        end
+    end
     parent_table
 end
 
@@ -53,5 +57,6 @@ end
 Chaque noeud est son propre parent.
 """
 function init_parent_table(graph::Graph)
-    parent_table = ParentTable{Int64}(nodes(graph), nodes(graph))
+    graph_nodes_copy = copy(nodes(graph))
+    parent_table = ParentTable{Int64}(nodes(graph), graph_nodes_copy)
 end

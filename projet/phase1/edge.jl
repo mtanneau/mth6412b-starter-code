@@ -16,8 +16,8 @@ Exemple:
 """
 mutable struct Edge{T} <: AbstractEdge{T}
   name::String
-  s_node::T
-  d_node::T
+  s_node::AbstractNode{T}
+  d_node::AbstractNode{T}
   weight::T
 end
 
