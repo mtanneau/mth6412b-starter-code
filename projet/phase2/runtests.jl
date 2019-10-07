@@ -1,3 +1,5 @@
+include(joinpath( @__DIR__,"kruskal.jl"))
+
 using Test
 #Initialisation du graphe test G
 node1 = Node("1", [-1.0,0.0])
@@ -11,10 +13,10 @@ arete4 = Edge((node1, node4), 4)
 arete5 = Edge((node3, node4), 5)
 G = Graph("Test graph", [node1, node2, node3, node4], [arete1, arete2, arete3, arete4, arete5])
 
-parents=Dict(node => node for node in nodes(G)) #Création d'une forêt d'arborescences avec les noeuds de G, et dont chaque noeud est son propre parent
+parents=Dict(name(node) => name(node) for node in nodes(G)) #Création d'une forêt d'arborescences avec les noeuds de G, et dont chaque noeud est son propre parent
 
 for node in nodes(G) #Vérification du contenu de parents
-    @test parents[node] == node
+    @test parents[name(node)] == name(node)
 end
 
 for edge in edges(G) #On vérifie qu'aucun couple de sommets n'est dans le même ensemble connexe, dans parents
@@ -22,8 +24,8 @@ for edge in edges(G) #On vérifie qu'aucun couple de sommets n'est dans le même
 end
 
 union!(arete1,parents) #On ajoute l'arête 1 à parents
-@test parents[node2]==node1 #On vérifie que le parent de node2 est bien devenu node1
-@test parents[node1]==node1
+@test parents[name(node2)]==name(node1) #On vérifie que le parent de node2 est bien devenu node1
+@test parents[name(node1)]==name(node1)
 @test connex(arete1,parents) == true #on vérifie le fonctionnement de la fonction connex
 @test connex(arete2,parents) == false
 @test connex(arete3,parents) == false
@@ -31,9 +33,9 @@ union!(arete1,parents) #On ajoute l'arête 1 à parents
 @test connex(arete5,parents) == false
 
 union!(arete2,parents)
-@test parents[node4]==node2
-@test parents[node2]==node1
-@test parents[node1]==node1
+@test parents[name(node4)]==name(node2)
+@test parents[name(node2)]==name(node1)
+@test parents[name(node1)]==name(node1)
 @test connex(arete1,parents) == true
 @test connex(arete2,parents) == true
 @test connex(arete3,parents) == false
@@ -41,18 +43,18 @@ union!(arete2,parents)
 @test connex(arete5,parents) == false
 
 #Vérification des racines de chaque noeud, dans le nouveau "parents"
-@test root(node4,parents)==node1
-@test root(node2,parents)==node1
-@test root(node1,parents)==node1
-@test root(node3,parents)==node3
+@test root(node4,parents)==name(node1)
+@test root(node2,parents)==name(node1)
+@test root(node1,parents)==name(node1)
+@test root(node3,parents)==name(node3)
 
 union!(arete3,parents) #Ajout de la dernière arête possible
 
 #Vérification des racines de chaque noeud, dans le nouveau "parents"
-@test root(node4,parents)==node1
-@test root(node2,parents)==node1
-@test root(node1,parents)==node1
-@test root(node3,parents)==node1
+@test root(node4,parents)==name(node1)
+@test root(node2,parents)==name(node1)
+@test root(node1,parents)==name(node1)
+@test root(node3,parents)==name(node1)
 
 for edge in edges(G) #On vérifie que tous les couples de sommets sont dans le même ensemble connexe
     @test connex(edge,parents) == true
