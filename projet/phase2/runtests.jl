@@ -1,6 +1,8 @@
 using Test
 
 include(joinpath(@__DIR__, "..", "phase1", "graph.jl"))
+include(joinpath(@__DIR__, "..", "phase1", "main1.jl"))
+include(joinpath(@__DIR__, "main2.jl"))
 
 using Test
 
@@ -10,9 +12,9 @@ using Test
 node1 = Node{Int64}("1", 1)
 node2 = Node{Int64}("2", 2)
 node3 = Node{Int64}("3", 3)
-edge1 = Edge{Int64}("", node1, node2, 1)
-edge2 = Edge{Int64}("", node1, node3, 2)
-edge3 = Edge{Int64}("", node2, node3, 3)
+edge1 = Edge{Int64}("1", node1, node2, 1)
+edge2 = Edge{Int64}("2", node1, node3, 2)
+edge3 = Edge{Int64}("3", node2, node3, 3)
 graph_3n = Graph{Int64}("graph_3n",[],[])
 add_edge!(graph_3n, edge1)
 add_edge!(graph_3n, edge2)
@@ -58,13 +60,25 @@ end
 parent_table_10n = init_parent_table(graph_10n)
 
 
-# "Graphe à n noeuds"
-graph_Nn = main1("C:/Users/arthg/github/mth6412b-starter-code/instances/stsp/bayg29.tsp")
-parent_table_Nn = init_parent_table(graph_Nn)
+# "Graphe à n noeuds : bayg29.tsp"
+graph_path1 = joinpath(@__DIR__, "..", "..", "instances/stsp/bayg29.tsp")
+graph_Nn1 = main1(graph_path1)
+parent_table_Nn1 = init_parent_table(graph_Nn1)
+
+# "Graphe à n noeuds : bays29.tsp"
+graph_path2 = joinpath(@__DIR__, "..", "..", "instances/stsp/bays29.tsp")
+graph_Nn2 = main1(graph_path2)
+parent_table_Nn2 = init_parent_table(graph_Nn2)
+
+# "Graphe à n noeuds : dantzig42.tsp"
+graph_path3 = joinpath(@__DIR__, "..", "..", "instances/stsp/dantzig42.tsp")
+graph_Nn3 = main1(graph_path3)
+parent_table_Nn3 = init_parent_table(graph_Nn3)
 
 
 """Fonctions"""
 
+"""Renvoie un booléen. Indique si la méthode parent() renvoie bien le parent associé au noeud donné dans la table parent_table"""
 function is_parent_ok(parent_table::AbstractParentTable)
     parent_ok = true
     for i = 1 : length(parents(parent_table))
@@ -75,18 +89,21 @@ function is_parent_ok(parent_table::AbstractParentTable)
     parent_ok
 end
 
-function is_root_unique(graph::AbstractGraph)
+"""Renvoie un booléen. Indique si tous les noeuds d'un graph donné ont la même racine."""
+function is_root_unique(parent_table::AbstractParentTable, tree::AbstractGraph)
     root_unique = true
-    for i = 1 : length(nodes(graph_3n))
+    if length(nodes(tree)) <= 1
+        root_unique = false
+    end
+    for i = 1 : length(nodes(tree))
         for j = 1 : i
-            if root(nodes(graph_3n)[i]) != root(nodes(graph_3n)[j])
+            if root(parent_table, nodes(tree)[i]) != root(parent_table, nodes(tree)[j])
                 root_unique = false
             end
         end
     end
     root_unique
 end
-
 
 """Tests"""
 
@@ -95,14 +112,18 @@ end
 @test enfants(parent_table_4n) == parents(parent_table_4n)
 @test enfants(parent_table_6n) == parents(parent_table_6n)
 @test enfants(parent_table_10n) == parents(parent_table_10n)
-@test enfants(parent_table_Nn) == parents(parent_table_Nn)
+@test enfants(parent_table_Nn1) == parents(parent_table_Nn1)
+@test enfants(parent_table_Nn2) == parents(parent_table_Nn2)
+@test enfants(parent_table_Nn3) == parents(parent_table_Nn3)
 
 # "Test de la méthode parent()"
 @test is_parent_ok(parent_table_3n)
 @test is_parent_ok(parent_table_4n)
 @test is_parent_ok(parent_table_6n)
 @test is_parent_ok(parent_table_10n)
-@test is_parent_ok(parent_table_Nn)
+@test is_parent_ok(parent_table_Nn1)
+@test is_parent_ok(parent_table_Nn2)
+@test is_parent_ok(parent_table_Nn3)
 
 # "Test de 'parent()', 'set_parent!()' et 'root()' pour le graphe à 3 noeuds."
 # "Changeons le parent de node1 dans graph_3n :"
@@ -122,19 +143,24 @@ min_tree_3n = main2(graph_3n)
 min_tree_4n = main2(graph_4n)
 min_tree_6n = main2(graph_6n)
 min_tree_10n = main2(graph_10n)
-min_tree_Nn = main2(graph_Nn)
+min_tree_Nn1 = main2(graph_Nn1)
+min_tree_Nn1 = main2(graph_Nn2)
+min_tree_Nn1 = main2(graph_Nn3)
 
 # "L'arbre de recouvrement minimal devrait avoir exactmeent une arête de moins que de sommets"
 @test length(edges(min_tree_3n)) == length(nodes(min_tree_3n)) - 1
 @test length(edges(min_tree_4n)) == length(nodes(min_tree_4n)) - 1
 @test length(edges(min_tree_6n)) == length(nodes(min_tree_6n)) - 1
 @test length(edges(min_tree_10n)) == length(nodes(min_tree_10n)) - 1
-@test length(edges(min_tree_Nn)) == length(nodes(min_tree_Nn)) - 1
+@test length(edges(min_tree_Nn1)) == length(nodes(min_tree_Nn1)) - 1
+@test length(edges(min_tree_Nn2)) == length(nodes(min_tree_Nn2)) - 1
+@test length(edges(min_tree_Nn3)) == length(nodes(min_tree_Nn3)) - 1
 
 # "La racine de chaque noeud devrait être la même"
-
-@test is_root_unique(min_tree_3n)
-@test is_root_unique(min_tree_4n)
-@test is_root_unique(min_tree_6n)
-@test is_root_unique(min_tree_10n)
-@test is_root_unique(min_tree_Nn)
+@test is_root_unique(parent_table_3n, min_tree_3n)
+@test is_root_unique(parent_table_4n, min_tree_4n)
+@test is_root_unique(parent_table_6n, min_tree_6n)
+@test is_root_unique(parent_table_10n, min_tree_10n)
+@test is_root_unique(parent_table_Nn1, min_tree_Nn1)
+@test is_root_unique(parent_table_Nn2, min_tree_Nn2)
+@test is_root_unique(parent_table_Nn3, min_tree_Nn3)
