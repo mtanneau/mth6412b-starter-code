@@ -70,10 +70,10 @@ function kruskal(G::Graph{T}) where T
      E = copy(edges(G))
      #Tri des arêtes par poids
      sort!(E, by = x -> weight(x))
-     parents=Dict(name(node) => name(node) for node in nodes(G))
+     parents = Dict(name(node) => name(node) for node in nodes(G))
 
      #Graphe contenant les noeuds de G, initialement sans arêtes
-     G_construction=Graph("Arbre", nodes(G), Edge{T}[])
+     G_construction = Graph("Arbre", nodes(G), Edge{T}[])
      for e in E
          #Si les deux noeuds de l'arête e ne sont pas dans le même ensemble connexe
         if connex(e,parents) == false
