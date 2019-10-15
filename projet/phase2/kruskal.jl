@@ -6,7 +6,6 @@ include(joinpath(here, "..", "phase1", "graph.jl"))
 
 #import Base.union!
 """Renvoie la racine du  noeud `node`
-
 Calcule recursivement la racine de `node, selon la relation de parents donnée
 par le dictionnaire `dict`.
 """
@@ -67,6 +66,7 @@ end
  graphe G, en utilisant l'algorithme de Kruskal
 """
 function kruskal(G::Graph{T}) where T
+    #copie des arêtes du graphe
      E = copy(edges(G))
      #Tri des arêtes par poids
      sort!(E, by = x -> weight(x))
