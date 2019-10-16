@@ -18,6 +18,8 @@ mutable struct Node{T} <: AbstractNode{T}
 end
 
 
+
+
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name` et `data`.
 
