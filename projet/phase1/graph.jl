@@ -22,35 +22,37 @@ mutable struct Graph{T} <: AbstractGraph{T}
   edges::Vector{Edge{T}}
 end
 
+"""Type représentant les parents de chaque noeud d'un graphe pour un arbre de recouvrement.
+Exemple :
+    node1 = Node(1,2)
+    node2 = Node(2,1)
+    node3 = Node(3,1)
+    edge1 = Edge(node1, node2, 4)
+    edge2 = Edge(node2, node3, 2)
+    edge3 = Edge(node1, node3, 1)
+
+    arbre = ("Arbre de recouvrement", Dict(node1 => node3, node1 => node2, node2 => node3), [edge1, edge2, edge3]
+"""
+mutable struct Arbre{T} <: AbstractGraph{T}
+  name::String
+  link::Dict{Node{T}, Node{T}}
+  edges::Vector{Edge{T}}
+end
+
 """Ajoute un noeud au graphe."""
 function add_node!(graph::Graph{T}, node::Node{T}) where T
   push!(graph.nodes, node)
   graph
 end
 
-"""Ajoute un vecteur de noeuds au graphe."""
-function add_nodes!(graph::Graph{T}, nodes::Vector{Node{T}}) where T
-  for k=1 : length(nodes)
-    node = nodes(k)
-    push!(graph.nodes, node)
-  end
-  graph
-end
-
 """Ajoute une arête au graphe."""
-function add_edge!(graph::Graph{T}, edge::Edge{T}) where T
+function add_edge!(graph::AbstractGraph{T}, edge::Edge{T}) where T
   push!(graph.edges, edge)
   graph
 end
 
-"""Ajoute un vecteur d'arête au graphe"""
-function add_edges!(graph::Graph{T}, edges::Vector{Edge{T}}) where T
-  for k= 1: length(edges)
-    edge = edges[k]
-    push!(graph.edges, edge)
-  end
-  graph
-end
+"""Renvoie le type des noeuds dans le graphe"""
+typeNode(graph::Graph{T}) where T = T
 
 # on présume que tous les graphes dérivant d'AbstractGraph
 # posséderont des champs `name` et `nodes`.
@@ -59,10 +61,10 @@ end
 name(graph::AbstractGraph) = graph.name
 
 """Renvoie la liste des noeuds du graphe."""
-nodes(graph::AbstractGraph) = graph.nodes
+nodes(graph::Graph) = graph.nodes
 
 """Renvoie le nombre de noeuds du graphe."""
-nb_nodes(graph::AbstractGraph) = length(graph.nodes)
+nb_nodes(graph::Graph) = length(graph.nodes)
 
 """Renvoie la liste des arêtes du graphe."""
 edges(graph::AbstractGraph) = graph.edges
