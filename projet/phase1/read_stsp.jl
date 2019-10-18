@@ -1,5 +1,9 @@
 using Plots
 
+include("node.jl")
+include("edge.jl")
+include("graph.jl")
+
 """Analyse un fichier .tsp et renvoie un dictionnaire avec les données de l'entête."""
 function read_header(filename::String)
 
@@ -138,20 +142,21 @@ function read_edges(header::Dict{String}{String}, filename::String)
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
-              edge = (k+1, i+k+2)
+              edge = (k+1, i+k+2, data[j+1])
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-              edge = (k+1, i+k+1)
+              edge = (k+1, i+k+1, data[j+1])
             elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
-              edge = (i+k+2, k+1)
+              edge = (i+k+2, k+1, data[j+1])
             elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
-              edge = (i+1, k+1)
+              edge = (i+1, k+1, data[j+1])
             elseif edge_weight_format == "FULL_MATRIX"
-              edge = (k+1, i+1)
+              edge = (k+1, i+1, data[j+1])
             else
               warn("Unknown format - function read_edges")
             end
+
             push!(edges, edge)
-            push!(edges_weights,  parse(Int, data[j+1]))
+            #push!(edges_weights,  parse(Int, data[j+1]))#ajout
             i += 1
           end
 
@@ -174,7 +179,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
     end
   end
   close(file)
-  return edges, edges_weights
+  return edges
 end
 
 """Renvoie les noeuds et les arêtes du graphe."""
@@ -190,40 +195,26 @@ function read_stsp(filename::String)
   println("✓")
 
   Base.print("Reading of edges : ")
-  edges_raw_data = read_edges(header, filename)
-  # "edges_raw_data" is a temporary variable used in order to call method "read_edges" only once.
-  edges_brut = edges_raw_data[1]
-  edges_weights_brut = edges_raw_data[2]
+  edges_brut = read_edges(header, filename)
   graph_edges = []
-  graph_edges_weights = []
   for k = 1 : dim
     edge_list = Int[]
-    edge_weight_list = Int[]
     push!(graph_edges, edge_list)
-    push!(graph_edges_weights, edge_weight_list)
   end
 
-  """Grouping edges and their corresponding weight by starting node"""
-  for k = 1 : length(edges_brut)
-    edge = edges_brut[k]
-    edge_weight = edges_weights_brut[k]
+  for edge in edges_brut
     if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
       push!(graph_edges[edge[1]], edge[2])
-      push!(graph_edges_weights[edge[1]], edge_weight)
     else
       push!(graph_edges[edge[2]], edge[1])
-      push!(graph_edges_weights[edge[2]], edge_weight)
     end
   end
 
-  """For each node, sorting edges by destination node and keeping each weight in front of its edge"""
   for k = 1 : dim
-    edges_order = sortperm(graph_edges[k])
-    graph_edges_weights[k] = graph_edges_weights[k][edges_order]
     graph_edges[k] = sort(graph_edges[k])
   end
   println("✓")
-  return graph_nodes, graph_edges, graph_edges_weights
+  return graph_nodes, graph_edges
 end
 
 """Affiche un graphe étant données un ensemble de noeuds et d'arêtes.
