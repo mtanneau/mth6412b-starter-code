@@ -22,11 +22,15 @@ function main2(graph::AbstractGraph{T}) where T
         node1 = s_node(edge)
         node2 = d_node(edge)
         # Si les deux noeuds ont des racines différentes, on ajoute
-        # l'arête à l'arbre de recouvrement minimum.
+        # l'arête à l'arbre de recouvrement minimum puis on réunit les
+        # composantes connexes en désignant l'une des deux racines comme
+        # le nouveau parent de l'autre racine.
         if root(parent_table, node1) != root(parent_table, node2)
             add_edge!(min_tree, edge)
             unite!(parent_table, node1, node2)
         end
     end
+    # On affiche puis on renvoie l'arbre de recouvrement minimum.
+    show(min_tree)
     min_tree
 end

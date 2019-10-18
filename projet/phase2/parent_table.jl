@@ -53,7 +53,18 @@ end
 function unite!(parent_table::AbstractParentTable, node1::AbstractNode, node2::AbstractNode)
     root1 = root(parent_table, node1)
     root2 = root(parent_table, node2)
-    parent(parent_table, root2) = root1
+    set_parent!(parent_table, root2, root1)
+end
+
+
+function is_root_unique(parent_table::AbstractParentTable)
+    nodes = enfants(parent_table)
+    for i = 1 : length(nodes)
+        if root(parent_table, nodes[i]) != root(parent_table, nodes[1])
+            return false
+        end
+    end
+    return true
 end
 
 """Construit un objet ParentTable aux dimensions d'un graphe donné.

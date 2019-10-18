@@ -25,7 +25,8 @@ function main1(filename::String)
     for node in nodes(graph)
       if name(node) == string(edge[1])
         s_node = node
-      elseif name(node) == string(edge[2])
+      end
+      if name(node) == string(edge[2])
         d_node = node
       end
     end
