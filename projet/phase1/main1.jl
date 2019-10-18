@@ -14,15 +14,24 @@ function main1(filename::String)
   graph_nodes = read_nodes(header, filename)
   nodes_empty = Vector{Node}()
   edges_empty = Vector{Edge}()
-  graph = Graph{Int64}("graph", nodes_empty, edges_empty)
-  for (i, node) in enumerate(graph_nodes)
-    new_node = Node{Int64}(string(collect(keys(graph_nodes))[i]), collect(keys(graph_nodes))[i])
+  graph = Graph{Array{Float64, 1}}("graph", nodes_empty, edges_empty)
+  for i = 1 : length(graph_nodes)
+    new_node = Node{Array{Float64, 1}}(string(collect(keys(graph_nodes))[i]), graph_nodes[i])
     add_node!(graph, new_node)
   end
   for edge in graph_edges
-      new_edge = Edge{Int64}("", Node{Int64}(string(edge[1]), edge[1]), Node{Int64}(string(edge[2]), edge[2]), parse(Int, edge[3]))
-      add_edge!(graph, new_edge)
+    s_node = Node{Array{Float64, 1}}("", [])
+    d_node = Node{Array{Float64, 1}}("", [])
+    for node in nodes(graph)
+      if name(node) == string(edge[1])
+        s_node = node
+      elseif name(node) == string(edge[2])
+        d_node = node
+      end
+    end
+    new_edge = Edge{Array{Float64, 1}}("", s_node, d_node, parse(Int64, edge[3]))
+    add_edge!(graph, new_edge)
   end
-  # show(graph)
+  show(graph)
   graph
 end
