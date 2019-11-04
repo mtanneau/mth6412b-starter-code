@@ -117,7 +117,7 @@ function erdosRenyi(N::Int, p::Float64; seed=0)
 
     # Create edges
     edges = [[
-        Edge{Nothing}((nodes[i], nodes[j]), 1.0 - 2.0 * rand())
+        Edge{Nothing}((nodes[i], nodes[j]), rand())
         for i in 1:N
             for j in i+2:N
                 if rand() < p
