@@ -62,6 +62,7 @@ function benchmark(funcs, graphs, N=16; verbose=false)
         @printf "%12s" "Totals"
         for (i, f) in enumerate(funcs)
             μ = 1000 * mean(sum(T[:, i, :], dims=1))  # mean
+            σ = 1000 * std(sum(T[:, i, :], dims=1))   # standard deviation
             @printf "  |  %10s%8.3f (±%8.3f)" "" μ ((2.0 / sqrt(N)) * σ)
         end
         @printf "\n"
